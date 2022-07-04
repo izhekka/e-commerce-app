@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/e-commerce-app.iml" filepath="$PROJECT_DIR$/.idea/e-commerce-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/order-service/order-service.iml" filepath="$PROJECT_DIR$/order-service/order-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/product-service/product-service.iml" filepath="$PROJECT_DIR$/product-service/product-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/proto/proto.iml" filepath="$PROJECT_DIR$/proto/proto.iml" />
     </modules>
   </component>
 </project>
