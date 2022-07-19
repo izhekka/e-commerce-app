@@ -1,6 +1,6 @@
 import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Auth } from '../auth.entity';
+import { Auth } from '../entity/auth.entity';
 import { Repository } from 'typeorm';
 import { JwtPayload, JwtService } from './jwt.service';
 import { LoginRequestDto, RegisterRequestDto, ValidateRequestDto } from '../auth.dto';
