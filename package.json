@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "bootstrap-api-gateway":  "cd api-gateway-service && npm install",
+    "bootstrap-auth-service":  "cd auth-service && npm install",
+    "bootstrap-order-service":  "cd order-service && npm install",
+    "bootstrap-product-service":  "cd product-service && npm install",
+    "bootstrap": "npm run bootstrap-api-gateway && npm run bootstrap-auth-service && npm run bootstrap-order-service && npm run bootstrap-product-service"
+  }
+}
