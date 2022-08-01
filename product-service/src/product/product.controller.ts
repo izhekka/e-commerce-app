@@ -18,7 +18,7 @@ export class ProductController {
     return {
       id: product.id,
       error: null,
-      status: HttpStatus.OK
+      status: HttpStatus.CREATED
     };
   }
 
