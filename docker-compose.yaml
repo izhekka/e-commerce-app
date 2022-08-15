@@ -1,11 +1,28 @@
 version: '3.1'
 services:
+  auth-service:
+    build:
+      context: .
+      dockerfile: auth-service/Dockerfile
+    container_name: auth-service
+    environment:
+      DB_HOST: database
+      DB_PORT: 5432
+      DB_NAME: micro_auth
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+    ports:
+      - '5001:5000'
+    depends_on:
+      - database
+
   database:
     image: postgres:14.3-alpine
+    container_name: postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - ./setup/db/init.sql:/docker-entrypoint-initdb.d/0-init.sql

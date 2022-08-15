@@ -6,7 +6,7 @@ import { protobufPackage } from './auth/auth.pb';
 import { join } from 'path';
 import { HttpExceptionFilter } from './auth/filter/http-exception.filter';
 import { ConfigService } from '@nestjs/config';
-import { AppConfig } from '../config/config';
+import { AppConfig } from './config/config';
 
 async function bootstrap() {
   const configApp = await NestFactory.create(AppModule);

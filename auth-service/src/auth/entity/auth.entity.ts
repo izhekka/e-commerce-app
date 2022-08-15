@@ -3,6 +3,7 @@ import { Exclude } from 'class-transformer';
 
 @Entity()
 export class Auth extends BaseEntity {
+
   @PrimaryGeneratedColumn()
   public id!: number;
 

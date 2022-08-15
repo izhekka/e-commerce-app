@@ -3,24 +3,31 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Auth } from '../entity/auth.entity';
 import { Repository } from 'typeorm';
 import { JwtPayload, JwtService } from './jwt.service';
-import { LoginRequestDto, RegisterRequestDto, ValidateRequestDto } from '../auth.dto';
-import { LoginResponse, RegisterResponse, ValidateResponse } from '../auth.pb';
+import {
+  LoginRequest,
+  LoginResponse,
+  RegisterRequest,
+  RegisterResponse,
+  ValidateRequest,
+  ValidateResponse
+} from '../auth.pb';
+import { ResponseStatus } from '../message/response-status';
 
 @Injectable()
 export class AuthService {
+
   @InjectRepository(Auth)
   private readonly repository: Repository<Auth>;
 
   @Inject(JwtService)
   private readonly jwtService: JwtService;
 
-  public async register({ email, password }: RegisterRequestDto): Promise<RegisterResponse> {
+  public async register({ email, password }: RegisterRequest): Promise<RegisterResponse> {
     let auth: Auth = await this.repository.findOneBy({ email });
 
     if (auth) {
       return {
-        status: HttpStatus.CONFLICT,
-        error: ['e-mail already exists']
+        ...ResponseStatus.ALREADY_EXISTS
       };
     }
 
@@ -32,18 +39,16 @@ export class AuthService {
     await this.repository.save(auth);
 
     return {
-      status: HttpStatus.CREATED,
-      error: null
+      ...ResponseStatus.CREATED
     };
   }
 
-  public async login({ email, password }: LoginRequestDto): Promise<LoginResponse> {
+  public async login({ email, password }: LoginRequest): Promise<LoginResponse> {
     const auth: Auth = await this.repository.findOneBy({ email });
 
     if (!auth) {
       return {
-        status: HttpStatus.UNAUTHORIZED,
-        error: ['e-mail not found'],
+        ...ResponseStatus.NOT_FOUND,
         token: null
       };
     }
@@ -52,8 +57,7 @@ export class AuthService {
 
     if (!isPasswordValid) {
       return {
-        status: HttpStatus.UNAUTHORIZED,
-        error: ['Password is incorrect'],
+        ...ResponseStatus.PASSWORD_INCORRECT,
         token: null
       };
     }
@@ -61,19 +65,17 @@ export class AuthService {
     const token: string = this.jwtService.generateToken(auth);
 
     return {
-      status: HttpStatus.OK,
-      error: null,
+      ...ResponseStatus.SUCCESS,
       token
     };
   }
 
-  public async validate({ token }: ValidateRequestDto): Promise<ValidateResponse> {
+  public async validate({ token }: ValidateRequest): Promise<ValidateResponse> {
     const decoded: JwtPayload = await this.jwtService.verify(token);
 
     if (!decoded) {
       return {
-        status: HttpStatus.FORBIDDEN,
-        error: ['Token is invalid'],
+        ...ResponseStatus.TOKEN_INVALID,
         userId: null
       };
     }
@@ -82,15 +84,13 @@ export class AuthService {
 
     if (!auth) {
       return {
-        status: HttpStatus.UNAUTHORIZED,
-        error: ['User not found'],
+        ...ResponseStatus.NOT_FOUND,
         userId: null
       };
     }
 
     return {
-      status: HttpStatus.OK,
-      error: null,
+      ...ResponseStatus.SUCCESS,
       userId: decoded.id
     }
   }

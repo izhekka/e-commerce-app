@@ -19,7 +19,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "proto:install": "npm i ../proto",
+    "proto:install": "install-local ../proto",
     "proto:auth": "protoc --plugin=node_modules/.bin/protoc-gen-ts_proto -I=./node_modules/proto/proto-files --ts_proto_out=src/auth/ node_modules/proto/proto-files/auth.proto --ts_proto_opt=nestJs=true --ts_proto_opt=fileSuffix=.pb"
   },
   "dependencies": {
@@ -36,7 +36,6 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "pg": "^8.7.3",
-    "proto": "file:../proto",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",

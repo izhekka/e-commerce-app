@@ -6,6 +6,7 @@ import { LoginRequestDto, RegisterRequestDto, ValidateRequestDto } from './auth.
 
 @Controller()
 export class AuthController {
+
   @Inject(AuthService)
   private readonly service: AuthService;
 
